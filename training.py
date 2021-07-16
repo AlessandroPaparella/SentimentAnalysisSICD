@@ -178,3 +178,6 @@ def tardir(path, tar_name):
                 tar_handle.add(os.path.join(root, file))
 tardir('./my_model', 'mymodel.tar.gz')
 tar.close()
+
+#save model on gdrive
+shutil.copy("/content/mymodel.tar.gz", "drive/MyDrive/mymodel.tar.gz")
