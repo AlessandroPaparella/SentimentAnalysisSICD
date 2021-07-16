@@ -58,6 +58,19 @@ test.columns = ['DATA_COLUMN', 'LABEL_COLUMN']
 test['DATA_COLUMN'] = test['DATA_COLUMN'].str.decode("utf-8")
 test.head()
 
+
+import re
+import string 
+
+def cleanText(text):
+  text = re.sub(r'@[A-Za-z0-9]+', '', text)
+  text = re.sub(r'#', '', text)
+  text = re.sub(r'https?:\/\/\S+', '', text)
+  return text
+
+train['DATA_COLUMN'] = train['DATA_COLUMN'].apply(cleanText)
+test['DATA_COLUMN'] = test['DATA_COLUMN'].apply(cleanText)
+
 def convert_data_to_examples(train, test, DATA_COLUMN, LABEL_COLUMN): 
   train_InputExamples = train.apply(lambda x: InputExample(guid=None, # Globally unique ID for bookkeeping, unused in this case
                                                           text_a = x[DATA_COLUMN], 
