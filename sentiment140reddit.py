@@ -102,12 +102,11 @@ while True:
     for i in range(top10url.size):
       # Serve nel caso di URL non validi i quali vanno SKIPPATI
       try:
-        submission.comments.replace_more(limit=0)
         submission = reddit.submission(url=top10url.get(i))
-
+        submission.comments.replace_more(limit=0)
+        
         for c in submission.comments:
             comments.append([c.body])
-
       except Exception: 
         pass 
 
@@ -133,7 +132,7 @@ def cleanText(text):
 comments['data'] = comments['data'].apply(cleanText)
 
 for i in range(len(comments)):
-  if "[deleted]" in comments['data'][i] or "[removed]" in comments['data'][i] or len(comments['data'][i]) < 3:
+  if "[deleted]" in comments['data'][i] or "[removed]" in comments['data'][i] or '?' in comments['data'][i] or len(comments['data'][i]) < 3:
     comments = comments.drop(i)
 
 import re
@@ -143,6 +142,7 @@ def formatString(sentence):
   return sentence
 
 pred_sentences = comments["data"].values.tolist()
+print(pred_sentences)
 
 tf_batch = tokenizer(pred_sentences, max_length=256, padding=True, truncation=True, return_tensors='tf')
 tf_outputs = model(tf_batch)
@@ -163,3 +163,7 @@ data = {'Comment':pred_sentences,
 df = pd.DataFrame(data)
 from tabulate import tabulate
 print(tabulate(df, headers = 'keys', tablefmt = 'fancy_grid'))
+
+import seaborn as sns
+
+sns.countplot(pred_labels)
