@@ -28,14 +28,16 @@ train_dir = os.path.join(main_dir, 'train')
 #print classes
 print(os.listdir(train_dir))
 
-# We create a training dataset and a validation 
+# We create a training dataset, validation and test
 # dataset from our "140/train" directory with a 80/20 split.
 train = tf.keras.preprocessing.text_dataset_from_directory(
-    '140/train', batch_size=20000, validation_split=0.2, 
+    '140/train', batch_size=40000, validation_split=0.2, 
     subset='training', seed=123)
-test = tf.keras.preprocessing.text_dataset_from_directory(
-    '140/test', batch_size=20000, validation_split=0.2, 
+val = tf.keras.preprocessing.text_dataset_from_directory(
+    '140/train', batch_size=8000, validation_split=0.2, 
     subset='validation', seed=123)
+test = tf.keras.preprocessing.text_dataset_from_directory(
+    '140/test', batch_size=20000, seed=123)
 
 
 #Preparing dataset for bert...
@@ -58,6 +60,15 @@ test.columns = ['DATA_COLUMN', 'LABEL_COLUMN']
 test['DATA_COLUMN'] = test['DATA_COLUMN'].str.decode("utf-8")
 test.head()
 
+for v in val.take(1):
+  val_feat = v[0].numpy()
+  val_lab = v[1].numpy()
+
+val = pd.DataFrame([val_feat, val_lab]).T
+val.columns = ['DATA_COLUMN', 'LABEL_COLUMN']
+val['DATA_COLUMN'] = val['DATA_COLUMN'].str.decode("utf-8")
+val.head()
+
 
 import re
 import string 
@@ -70,6 +81,7 @@ def cleanText(text):
 
 train['DATA_COLUMN'] = train['DATA_COLUMN'].apply(cleanText)
 test['DATA_COLUMN'] = test['DATA_COLUMN'].apply(cleanText)
+val['DATA_COLUMN'] = val['DATA_COLUMN'].apply(cleanText)
 
 def convert_data_to_examples(train, test, DATA_COLUMN, LABEL_COLUMN): 
   train_InputExamples = train.apply(lambda x: InputExample(guid=None, # Globally unique ID for bookkeeping, unused in this case
@@ -142,13 +154,16 @@ DATA_COLUMN = 'DATA_COLUMN'
 LABEL_COLUMN = 'LABEL_COLUMN'
 
 
-train_InputExamples, validation_InputExamples = convert_data_to_examples(train, test, DATA_COLUMN, LABEL_COLUMN)
-print(train_InputExamples)
+train_InputExamples, validation_InputExamples = convert_data_to_examples(train, val, DATA_COLUMN, LABEL_COLUMN)
+train_InputExamples, test_InputExamples = convert_data_to_examples(train, test, DATA_COLUMN, LABEL_COLUMN)
 train_data = convert_examples_to_tf_dataset(list(train_InputExamples), tokenizer)
 train_data = train_data.shuffle(100).batch(32).repeat(2)
 
 validation_data = convert_examples_to_tf_dataset(list(validation_InputExamples), tokenizer)
 validation_data = validation_data.batch(32)
+
+test_data = convert_examples_to_tf_dataset(list(test_InputExamples), tokenizer)
+test_data = test_data.batch(32)
 
 #Training 
 
@@ -177,7 +192,9 @@ def tardir(path, tar_name):
             for file in files:
                 tar_handle.add(os.path.join(root, file))
 tardir('./my_model', 'mymodel.tar.gz')
-tar.close()
 
 #save model on gdrive
 shutil.copy("/content/mymodel.tar.gz", "drive/MyDrive/mymodel.tar.gz")
+
+#evaluation
+model.evaluate(test_data)
