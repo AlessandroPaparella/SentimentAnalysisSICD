@@ -7,7 +7,7 @@ Original file is located at
     https://colab.research.google.com/drive/10wnMElpZxiV_RDwZbJVEiI4WbdyQGziD
 """
 #pip install mega.py
-#!pip install transformers
+#pip install transformers
 
 import tensorflow as tf
 import pandas as pd
@@ -38,7 +38,7 @@ model.compile(optimizer=tf.keras.optimizers.Adam(learning_rate=3e-5, epsilon=1e-
               loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True), 
               metrics=[tf.keras.metrics.SparseCategoricalAccuracy('accuracy')])
 
-#dataset download
+
 if(not exists("model.h5")):
     mega = Mega()
     m = mega.login()
@@ -49,7 +49,7 @@ if(not exists("model.h5")):
 
 model.load_weights("model.h5")
 
-#!pip install praw
+#pip install praw
  
 import praw
 import pandas as pd
