@@ -7,29 +7,26 @@ Original file is located at
     https://colab.research.google.com/drive/1p1ZoE-cSRKjo_ulwoJcBKVmpm4dnLb2d
 """
 
-!pip install transformers
+#pip install transformers
 
 import tensorflow as tf
 import pandas as pd
+from mega import Mega
+from os.path import exists
 
-from google.colab import drive
-drive.mount('/content/drive')
-
-import tarfile 
-file = tarfile.open('drive/MyDrive/140.tar.gz') 
-  
-# extracting file 
-file.extractall('./') 
-  
-file.close()
-
-import tarfile 
-file = tarfile.open('drive/MyDrive/mymodel.tar.gz') 
-  
-# extracting file 
-file.extractall('./') 
-  
-file.close()
+if(not exists("my_model/")):
+    mega = Mega()
+    m = mega.login()
+    try:
+        m.download_url('https://mega.nz/file/0eRhiC5I#l6_lGhdE5P7DBdr_MW8IRerCLjcuM-tgaQg-VQvEXA8')
+        import tarfile 
+        file = tarfile.open('mymodel.tar.gz') 
+          
+        # extracting file 
+        file.extractall('./') 
+        file.close()
+    except:
+        pass
 
 from transformers import BertTokenizer, TFBertForSequenceClassification
 from transformers import InputExample, InputFeatures
@@ -37,7 +34,7 @@ from transformers import InputExample, InputFeatures
 model = TFBertForSequenceClassification.from_pretrained("./my_model")
 tokenizer = BertTokenizer.from_pretrained("./my_model")
 
-!pip install praw
+#pip install praw
  
 import praw
 import pandas as pd
@@ -58,7 +55,7 @@ pd.set_option('display.width', None)
 pd.set_option('display.max_colwidth', -1)
 
 while True:
-  choice = input("Inserisci:\n1 Per esaminare i commenti di un post\n2 Per esaminare i commenti dei top20 post di un subreddit:\n") 
+  choice = input("Inserisci:\n1 Per esaminare i commenti di un post\n2 Per esaminare i top post di un subreddit:\n") 
 
   if choice == '1':
     # PRENDO UN POST E VEDO I COMMENTI
@@ -86,27 +83,18 @@ while True:
     posts = []
     subreddit = reddit.subreddit(chosen_subreddit)
 
-    for post in subreddit.hot(limit=20):
+    for post in subreddit.hot(limit=200):
         posts.append([post.title, post.score, post.id, post.subreddit, post.url, post.num_comments, post.selftext, post.created])
     posts = pd.DataFrame(posts,columns=['title', 'score', 'id', 'subreddit', 'url', 'num_comments', 'body', 'created'])
     print("TOP POST\n")
     print(posts)
-    
-    top10url = posts.get('url')
-    print(top10url)
 
-    # PRENDO TUTTI I COMMENTI DI DEI TOP10 POST
-    
+    # PRENDO I TOP POST
     comments = []
-    
-    for i in range(top10url.size):
+    for i in range(posts.size):
       # Serve nel caso di URL non validi i quali vanno SKIPPATI
       try:
-        submission = reddit.submission(url=top10url.get(i))
-        submission.comments.replace_more(limit=0)
-        
-        for c in submission.comments:
-            comments.append([c.body])
+        comments.append([posts.get('title')[i]+" "+posts.get('body')[i]])
       except Exception: 
         pass 
 
@@ -165,5 +153,6 @@ from tabulate import tabulate
 print(tabulate(df, headers = 'keys', tablefmt = 'fancy_grid'))
 
 import seaborn as sns
-
+import matplotlib.pyplot as plt
 sns.countplot(pred_labels)
+plt.show()
