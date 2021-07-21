@@ -49,6 +49,7 @@ Sono presenti due file differenti (SentimentAnalysisReddit_GPU.py eSentimentAnal
 ## 3. Requisiti
 Per l'esecuzione corretta dei codici di training è richiesto l'uso di Colab.
 Per quanto riguarda il sentiment analysis sul web è possibile eseguire il programma in locale purché si installino tutti i requisiti con il comando:
+
 `pip install -r requirements.txt`
 
 
