@@ -20,7 +20,7 @@ if(not exists("140train.csv")):
         pass
 
 #load and prepare the dataset
-df = pd.read_csv("140train.csv")
+df = pd.read_csv("140train.csv", encoding='latin-1')
 df.columns = ["target", "id", "date", "flag", "user", "text"]
 df=df.drop(["id", "date", "flag", "user"], axis=1)
 df['target']=df['target'].map({0:0, 4:1}) 
