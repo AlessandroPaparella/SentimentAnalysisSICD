@@ -42,8 +42,6 @@ nltk.download('stopwords')
 stops = stopwords.words('english')
 wholeText = ' '.join([t for t in df['text']])
 wholeTextNoStops = ' '.join([word for word in wholeText.split() if word not in stops])
-print(len(wholeText))
-print(len(wholeTextNoStops))
 
 #display wordcloud
 brain_mask = imageio.imread('brainmask.jpg')
