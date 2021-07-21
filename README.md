@@ -30,7 +30,7 @@ Di conseguenza abbiamo deciso di estendere il dataset coprendo tutti gli esempi 
 Infine abbiamo anche testato il modello "bert-base-cased" dal momento che in genere gli utenti in base allo stato d'animo possono utilizzare caratteri maiuscoli o meno, tuttavia non abbiamo riscontrato miglioramenti e abbiamo deciso di continuare a utilizzare il modello "bert-base-uncased".
 
 ## Fase di scraping
-Il progetto permette di scegliere all'utente l'analisi di un determinato topic (chiamato "subreddit") effettuando quindi sentiment analysis su un massimo di top200 post in tendenza oppure di analizzare i commenti a uno specifico post fornendo la predizione e anche un grafico del sentimento.
+Il progetto permette di scegliere all'utente l'analisi di un determinato topic (chiamato "subreddit", il quale deve essere conosciiuto a priori dall'utente) effettuando quindi sentiment analysis su un massimo di top200 post in tendenza oppure di analizzare i commenti a uno specifico post fornendo la predizione e anche un grafico del sentimento.
 
 
 ## 2. Struttura
