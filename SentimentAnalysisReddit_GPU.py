@@ -69,11 +69,9 @@ while True:
           comments.append([c.body])
 
     except Exception:
-        print("Errore nel link\n") 
         pass
 
     comments = pd.DataFrame(comments,columns=['data'])
-    print(comments)
     break
 
   elif choice == '2':
@@ -86,8 +84,6 @@ while True:
     for post in subreddit.hot(limit=200):
         posts.append([post.title, post.score, post.id, post.subreddit, post.url, post.num_comments, post.selftext, post.created])
     posts = pd.DataFrame(posts,columns=['title', 'score', 'id', 'subreddit', 'url', 'num_comments', 'body', 'created'])
-    print("TOP POST\n")
-    print(posts)
 
     # PRENDO I TOP POST
     comments = []
@@ -99,7 +95,6 @@ while True:
         pass 
 
     comments = pd.DataFrame(comments,columns=['data'])
-    print(comments)
     break
 
   else:
@@ -130,7 +125,6 @@ def formatString(sentence):
   return sentence
 
 pred_sentences = comments["data"].values.tolist()
-print(pred_sentences)
 
 tf_batch = tokenizer(pred_sentences, max_length=256, padding=True, truncation=True, return_tensors='tf')
 tf_outputs = model(tf_batch)
