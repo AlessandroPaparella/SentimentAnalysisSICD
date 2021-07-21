@@ -29,6 +29,9 @@ Di conseguenza abbiamo deciso di estendere il dataset coprendo tutti gli esempi 
 
 Infine abbiamo anche testato il modello "bert-base-cased" dal momento che in genere gli utenti in base allo stato d'animo possono utilizzare caratteri maiuscoli o meno, tuttavia non abbiamo riscontrato miglioramenti e abbiamo deciso di continuare a utilizzare il modello "bert-base-uncased".
 
+## Fase di scraping
+Il progetto permette di scegliere all'utente l'analisi di un determinato topic (chiamato "subreddit") effettuando quindi sentiment analysis su un massimo di top200 post in tendenza oppure di analizzare i commenti a uno specifico post fornendo la predizione e anche un grafico del sentimento.
+
 
 ## 2. Struttura
 ```
@@ -44,4 +47,8 @@ Infine abbiamo anche testato il modello "bert-base-cased" dal momento che in gen
 Sono presenti due file differenti (SentimentAnalysisReddit_GPU.py eSentimentAnalysisReddit_TPU.py) per quanto riguarda lo scraper di reddit poiché il modello allenato sulle TPU prende in input un formato di dati differente e inoltre è necessario scaricare prima il modello pre-allenato e poi caricare i pesi ottenuti con il training, a differenza del modello allenato con GPU il quale è stato serializzato per intero.
 
 ## 3. Requisiti
+Per l'esecuzione corretta dei codici di training è richiesto l'uso di Colab.
+Per quanto riguarda il sentiment analysis sul web è possibile eseguire il programma in locale purché si installino tutti i requisiti con il comando:
+`pip install -r requirements.txt`
+
 
