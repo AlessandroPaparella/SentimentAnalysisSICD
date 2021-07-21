@@ -67,7 +67,7 @@ import pandas as pd
 pd.set_option('display.max_rows', None)
 pd.set_option('display.max_columns', None)
 pd.set_option('display.width', None)
-pd.set_option('display.max_colwidth', -1)
+pd.set_option('display.max_colwidth', None)
 
 while True:
   choice = input("Inserisci:\n1 Per esaminare i commenti di un post\n2 Per esaminare i top post di un subreddit:\n") 
@@ -105,7 +105,7 @@ while True:
     for i in range(posts.size):
       # Serve nel caso di URL non validi i quali vanno SKIPPATI
       try:
-        comments.append([posts.get('title')[i]+" "+posts.get('body')[i]])
+        comments.append([posts.get('body')[i]])
       except Exception: 
         pass 
 
