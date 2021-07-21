@@ -46,7 +46,7 @@ print(len(wholeText))
 print(len(wholeTextNoStops))
 
 #display wordcloud
-brain_mask = imageio.imread('download.jpg')
+brain_mask = imageio.imread('brainmask.jpg')
 wordcloud = WordCloud(width=700, height=700, colormap='prism', background_color='black', mask=brain_mask)
 wordcloud = wordcloud.generate(wholeTextNoStops)
 plt.imshow(wordcloud)
