@@ -1,0 +1,12 @@
+tensorflow
+pandas
+transformers
+mega.py
+praw
+tabulate
+seaborn
+mathplot
+wordcloud
+nltk
+imageio
+textblob
