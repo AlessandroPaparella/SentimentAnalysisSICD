@@ -84,15 +84,13 @@ while True:
           comments.append([c.body])
 
     except Exception:
-        print("Errore nel link\n") 
         pass
 
     comments = pd.DataFrame(comments,columns=['data'])
-    print(comments)
     break
 
   elif choice == '2':
-    # prendo i pos#t di un subreddit
+    # prendo i post di un subreddit
     chosen_subreddit = input("Inserisci il nome del subreddit:\n") 
 
     posts = []
@@ -101,8 +99,6 @@ while True:
     for post in subreddit.hot(limit=200):
         posts.append([post.title, post.score, post.id, post.subreddit, post.url, post.num_comments, post.selftext, post.created])
     posts = pd.DataFrame(posts,columns=['title', 'score', 'id', 'subreddit', 'url', 'num_comments', 'body', 'created'])
-    print("TOP POST\n")
-    print(posts)
 
     # PRENDO I TOP POST
     comments = []
@@ -114,7 +110,6 @@ while True:
         pass 
 
     comments = pd.DataFrame(comments,columns=['data'])
-    print(comments)
     break
 
   else:
@@ -147,7 +142,6 @@ def formatString(sentence):
   return sentence
 
 pred_sentences = comments["data"].values.tolist()
-print(pred_sentences)
 
 input_ids = [tokenizer.encode(sent, add_special_tokens=True,max_length=128,pad_to_max_length=True) for sent in pred_sentences]
 attention_mask = [[float(i>0) for i in seq] for seq in input_ids]
