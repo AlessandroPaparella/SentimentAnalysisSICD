@@ -90,7 +90,7 @@ while True:
     for i in range(posts.size):
       # Serve nel caso di URL non validi i quali vanno SKIPPATI
       try:
-        comments.append([posts.get('body')[i]])
+        comments.append([posts.get('title')[i]+" "+posts.get('body')[i]])
       except Exception: 
         pass 
 
