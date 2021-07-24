@@ -42,6 +42,8 @@ Il progetto permette di scegliere all'utente l'analisi di un determinato topic (
 |–– trainingGPU.py
 |–– trainingTPU.py
 |-- requirements.txt
+|-- csvToFiles.py
+|-- brainmask.jpg
 ```
 
 Sono presenti due file differenti (SentimentAnalysisReddit_GPU.py eSentimentAnalysisReddit_TPU.py) per quanto riguarda lo scraper di reddit poiché il modello allenato sulle TPU prende in input un formato di dati differente e inoltre è necessario scaricare prima il modello pre-allenato e poi caricare i pesi ottenuti con il training, a differenza del modello allenato con GPU il quale è stato serializzato per intero.
