@@ -1,3 +1,7 @@
+"""
+File colab: https://colab.research.google.com/drive/1lL7Rzp-tD4Y77LcEUV3Kqj6jeP2FUK5o?usp=sharing
+"""
+
 from transformers import BertTokenizer, TFBertForSequenceClassification
 from transformers import InputExample, InputFeatures
 import tensorflow as tf
